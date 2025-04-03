@@ -78,7 +78,12 @@ public class Labyrinth {
     }
 
     public Monster putPlayer(Directions direction, Player player){
-        throw new UnsupportedOperationException();
+        int[] newPos = new int[2];
+        int oldRow = player.getRow();
+        int oldCol = player.getCol();
+        newPos = dir2Pos(oldRow, oldCol, direction);
+        Monster monster = putPlayer2D(oldRow, oldCol, newPos[ROW], newPos[COL], player);
+        return monster;
     }
 
     public void addBlock(Orientation orientation, int startRow, int startCol, int length){
@@ -199,7 +204,30 @@ public class Labyrinth {
     }
 
     private Monster putPlayer2D(int oldRow, int oldCol, int row, int col, Player player){
-        throw new UnsupportedOperationException();
+        Monster output = null;
+        if (canStepOn(row, col)){
+            if(posOK(row, col)){
+                Player p = players[oldRow][oldCol];
+                if (p == player){
+                    updateOldPos(oldRow, oldCol);
+                    players[oldRow][oldCol] = null;
+                }
+            }
+            boolean monsterPos = monsterPos(row, col);
+            if (monsterPos){
+                labyrinth[row][col] = COMBAT_CHAR;
+                output = monsters[row][col];
+    
+            }
+            else{
+                char number = player.getNumber();
+                labyrinth[row][col]=number;
+            }
+
+            players[row][col] = player;
+            player.setPos(row, col);
+        }
+        return output;
     }
     
 
