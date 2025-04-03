@@ -13,13 +13,15 @@ public class Monster {
     private static final int INITIAL_HEALTH=5;
     private String name;
     private float strength;
+    private float intelligence;
     private float health;
     private int row;
     private int col;
 
-    public Monster(String name, float strength){
+    public Monster(String name, float strength, float intelligence){
         this.name = name;
         this.strength = strength;
+        this.intelligence = intelligence;
         this.health = INITIAL_HEALTH;
     }
 

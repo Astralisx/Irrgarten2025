@@ -199,7 +199,7 @@ public class Labyrinth {
     }
 
     private Monster putPlayer2D(int oldRow, int oldCol, int row, int col, Player player){
-
+        throw new UnsupportedOperationException();
     }
     
 
