@@ -17,7 +17,7 @@ public class GameState {
         log = lg;
     }
 
-    public String getLabyrinthv(){return labyrinth;}
+    public String getLabyrinth(){return labyrinth;}
     public String getPlayers(){return players;}
     public String getMonsters(){return monsters;}
     public int getCurrentPlayer(){return currentPlayer;}

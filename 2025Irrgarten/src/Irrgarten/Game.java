@@ -6,14 +6,14 @@ public class Game {
     private static final int MAX_ROUNDS = 10;
     private int currentPlayerIndex;
     private String log;
-    private Labyrinth labyrinth;
-    private ArrayList<Monster> monstersArray = new ArrayList<>();
-    private ArrayList<Player> playersArray = new ArrayList<>();
+    private final Labyrinth labyrinth;
+    private final ArrayList<Monster> monstersArray = new ArrayList<>();
+    private final ArrayList<Player> playersArray = new ArrayList<>();
     private Player currentPlayer;
 
 
     public Game(int nPlayers){
-        this.labyrinth = new Labyrinth(5, 5, 0, 0)
+        this.labyrinth = new Labyrinth(5, 5, 0, 0);
         this.log = "";
         for (int i = 0; i < nPlayers; i++){
             Player player = new Player(Character.forDigit(i, 10), Dice.randomIntelligence(), Dice.randomStrength());
@@ -24,6 +24,7 @@ public class Game {
 
         this.ConfigureLabyrinth();
         this.labyrinth.spreadPLayers(playersArray);
+        this.log="- Game just started.\n";
         
     }
 
@@ -32,7 +33,7 @@ public class Game {
     }
 
     public boolean nextStep(Directions preferredDirection){
-        String log = "";
+        log = "";
         Monster monster;
         boolean dead = this.currentPlayer.dead();
         if (!dead){
@@ -40,7 +41,7 @@ public class Game {
             if (direction != preferredDirection){
                 logPlayerNoOrders();
             }
-            monster = this.labyrinth.putPlayer(direction, currentPlayer)
+            monster = this.labyrinth.putPlayer(direction, currentPlayer);
         
 
             if (monster == null){
@@ -89,26 +90,18 @@ public class Game {
     }
 
     private void nextPlayer(){
-        if(this.currentPlayerIndex < playersArray.size()-1){
-            this.currentPlayerIndex+=1;
-            this.currentPlayer = this.playersArray.get(this.currentPlayerIndex);
-        }
-        else{
-            this.currentPlayerIndex = 0;
-            this.currentPlayer = this.playersArray.get(0);
-        }
-
+        this.currentPlayerIndex=(this.currentPlayerIndex+1) % this.playersArray.size();
+        this.currentPlayer=this.playersArray.get(this.currentPlayerIndex);
+        
     }
 
     private Directions actualDirection(Directions preferredDirection){
         int currentRow = this.currentPlayer.getRow();
         int currentCol = this.currentPlayer.getCol();
 
-        ArrayList<Directions> validMoves = new ArrayList<>();
-        validMoves = this.labyrinth.validMoves(currentRow, currentCol);
+        ArrayList<Directions> validMoves = this.labyrinth.validMoves(currentRow, currentCol);
 
-        Directions output = this.currentPlayer.move(preferredDirection, validMoves)
-        return output;
+        return this.currentPlayer.move(preferredDirection, validMoves);
     }
 
     private GameCharacter combat(Monster monster){
@@ -127,7 +120,7 @@ public class Game {
             if (!lose){
                 playerAttack = this.currentPlayer.attack();
                 winner = GameCharacter.PLAYER;
-                lose = monster.defend(monsterAttack);
+                lose = monster.defend(playerAttack);
             }
         }
 

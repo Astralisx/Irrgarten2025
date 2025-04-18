@@ -10,14 +10,15 @@ public class Labyrinth {
     private static final char EXIT_CHAR='E';
     private static final int ROW=0;
     private static final int COL=1;
-    private int nRows;
-    private int nCols;
-    private int exitRow;
-    private int exitCol;
+    private static final int POS_IMPOSIBLE=-1;
+    private final int nRows;
+    private final int nCols;
+    private final int exitRow;
+    private final int exitCol;
 
-    private Player[][] players;
-    private Monster[][] monsters;
-    private char[][] labyrinth;
+    private final Player[][] players;
+    private final Monster[][] monsters;
+    private final char[][] labyrinth;
 
 
     public Labyrinth(int nRows, int nCols, int exitRow, int exitCol){
@@ -43,11 +44,14 @@ public class Labyrinth {
     }
 
     public void spreadPLayers(ArrayList<Player> players){
-        throw new UnsupportedOperationException();
+        for (Player player : players) {
+            int[] pos = randomEmptyPos();
+            putPlayer2D(POS_IMPOSIBLE, POS_IMPOSIBLE,pos[ROW], pos[COL], player);
+        }
     }
 
     public boolean haveAWinner(){
-        return players[this.exitRow][this.exitCol] != null ? true : false;
+        return (players[this.exitRow][this.exitCol] != null);
     }
 
     @Override
@@ -73,15 +77,17 @@ public class Labyrinth {
     }
 
     public void addMonster(int row, int col, Monster monster){
-        this.labyrinth[row][col] = MONSTER_CHAR;
-        this.monsters[row][col] = monster;
+        if (posOK(row, col) && (emptyPos(row, col))){
+            monster.setPos(row,col);
+            this.monsters[row][col]=monster;
+            this.labyrinth[row][col]=MONSTER_CHAR;
+        }
     }
 
     public Monster putPlayer(Directions direction, Player player){
-        int[] newPos = new int[2];
         int oldRow = player.getRow();
         int oldCol = player.getCol();
-        newPos = dir2Pos(oldRow, oldCol, direction);
+        int[] newPos = dir2Pos(oldRow, oldCol, direction);
         Monster monster = putPlayer2D(oldRow, oldCol, newPos[ROW], newPos[COL], player);
         return monster;
     }
@@ -148,14 +154,11 @@ public class Labyrinth {
     }
 
     private boolean canStepOn(int row, int col){
-        if (posOK(row, col)){
-            if(this.emptyPos(row, col) || this.monsterPos(row, col) || this.exitPos(row, col)){
-                return true;
-            }
-            else return false;
-        }     
-        else 
-            return false;
+        boolean comprobacion=this.posOK(row, col);
+        comprobacion = comprobacion && (this.monsterPos(row, col) || this.exitPos(row, col) ||
+                this.emptyPos(row, col));
+
+        return comprobacion;
     }
 
     private void updateOldPos(int row, int col){
@@ -206,7 +209,7 @@ public class Labyrinth {
     private Monster putPlayer2D(int oldRow, int oldCol, int row, int col, Player player){
         Monster output = null;
         if (canStepOn(row, col)){
-            if(posOK(row, col)){
+            if(posOK(oldRow, oldCol)){
                 Player p = players[oldRow][oldCol];
                 if (p == player){
                     updateOldPos(oldRow, oldCol);

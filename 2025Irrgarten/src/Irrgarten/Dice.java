@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Irrgarten;
-import java.util.ArrayList;
 import java.util.Random;
 /**
  *
@@ -19,7 +18,7 @@ public class Dice {
     static private final int HELATH_REWARD=5;
     static private final int MAX_ATTACK = 3;
     static private final int MAX_SHIELD = 2;
-    static private Random generator = new Random();
+    static private final Random generator = new Random();
     
     public static int randomPos(int max){
         return generator.nextInt(0,max);
@@ -38,10 +37,7 @@ public class Dice {
     }
     
     public static boolean resurrectPlayer(){
-        if (generator.nextFloat() > RESURRECT_PROB){
-                return false;
-        }
-        return true;
+       return generator.nextFloat() <= RESURRECT_PROB;
     }
     
     public static int weaponsReward(){
