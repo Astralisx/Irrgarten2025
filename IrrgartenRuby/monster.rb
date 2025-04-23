@@ -2,7 +2,7 @@ require_relative 'dice'
 module Irrgarten
     class Monster
         @@INITIAL_HEALTH = 5
-        attr_reader :name , :intelligence, :strenght , :health , :row , :col , :INITIAL_HEALTH
+        attr_reader :name , :intelligence, :strength , :health , :row , :col , :INITIAL_HEALTH
         def initialize(name, intelligence , strenght)
             @name=name
             @intelligence = intelligence.to_f

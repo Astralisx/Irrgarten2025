@@ -57,7 +57,10 @@ module UI
     end
 
     def show_game(game_state)
-      puts 
+      puts game_state.labyrinth
+      puts game_state.current_player
+      puts game_state.log
+      puts game_state.players
     end
 
   end # class   

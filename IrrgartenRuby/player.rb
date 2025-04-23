@@ -32,11 +32,11 @@ module Irrgarten
             @shieldsArray.clear
             reset_hits
         end
-
-        attr_reader :name
-        attr_reader :row
-        attr_reader :col
-        attr_reader :number
+        attr_reader :intelligence, :strength , :health , :row , :number , :name , :col , :INITIAL_HEALTH
+        # attr_reader :name
+        # attr_reader :row
+        # attr_reader :col
+        # attr_reader :number
 
         def set_pos(row, col)
             @row = row

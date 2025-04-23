@@ -187,7 +187,7 @@ module Irrgarten
                 if pos_ok(old_row,old_col)
                     jugador = @playersArray[old_row][old_col]
                     if player == jugador
-                        update_old_pos(old_row, old_col)
+                        update_old_pos(old_row, old_col) # actualiza la funcion en el laberinto
                         player.set_pos(old_row,old_col)
                     end
                 end
