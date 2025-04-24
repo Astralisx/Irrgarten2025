@@ -21,11 +21,11 @@ public class Dice {
     static private final Random generator = new Random();
     
     public static int randomPos(int max){
-        return generator.nextInt(0,max);
+        return generator.nextInt(max);
     }
     
     public static int whoStarts(int players){
-        return generator.nextInt(0,players);
+        return generator.nextInt(players);
     }
     
     public static float randomIntelligence(){

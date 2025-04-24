@@ -13,6 +13,11 @@ module Irrgarten
 
         @@generator = Random.new
 
+        #Si escribimos @@generator.rand(0..2), tendremos un valor aleatorio entre [0,1,2], valores enteros
+        #Si escribimos @@generator.rand(0...2), tendremos un valor aleatorio entre [0,1], valores enteros, ya que el 2 no se toma
+        #Si no queremos que sean valores enteros basta con poner 0.0..2.0 en el primer caso, y 0.0...2.0 en el segundo, esto nos dará un número en el intervalo
+        #[0,2] para el primer caso, [0,1] en el segundo
+        
         def self.random_pos(max)
             @@generator.rand(max.to_i)
         end

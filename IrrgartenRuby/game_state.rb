@@ -14,7 +14,7 @@ module Irrgarten
         attr_reader :players
         attr_reader :monsters
         attr_reader :current_player
-        attr_reader :winner
+        attr_reader :winner     
         attr_reader :log
     end
 end

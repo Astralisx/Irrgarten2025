@@ -18,6 +18,9 @@ module Control
         end_of_game = @game.next_step(direction)
       end
       @view.show_game(@game.game_state)
+      if (@game.game_state.winner)
+        puts "Ha ganado el jugador: " + @game.game_state.current_player.to_s
+      end
     end
   end # class   
 end # module        

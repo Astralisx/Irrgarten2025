@@ -67,7 +67,7 @@ module Irrgarten
             cmonsters = ""
 
             for i in 0...@monsters.size
-                cmonsters.concat("#{@monsters[i].to_s}") 
+                cmonsters.concat("#{@monsters[i].to_s}\n") 
             end
 
             return GameState.new(@labyrinth.to_s,cplayers,cmonsters,@current_player_index,self.finished,@log)
@@ -79,14 +79,14 @@ module Irrgarten
         def configure_labyrinth
             @labyrinth.add_block(Orientation::HORIZONTAL,1,1,3)
             monster  = Monster.new('m1',1.5,5)
-            monster2  = Monster.new('m2',4,10)
-            monster3  = Monster.new('m3',80,90)
+            # monster2  = Monster.new('m2',4,10)
+            # monster3  = Monster.new('m3',80,90)
             @labyrinth.add_monster(2,2,monster)
-            @labyrinth.add_monster(3,3,monster2)
-            @labyrinth.add_monster(4,4,monster3)
+            # @labyrinth.add_monster(3,3,monster2)
+            # @labyrinth.add_monster(4,4,monster3)
             @monsters.push(monster)
-            @monsters.push(monster2)
-            @monsters.push(monster3)
+            # @monsters.push(monster2)
+            # @monsters.push(monster3)
             
 
         end
