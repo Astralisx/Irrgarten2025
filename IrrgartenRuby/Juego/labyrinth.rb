@@ -3,6 +3,7 @@ require_relative 'dice'
 require_relative 'orientation'
 require_relative 'player'
 require_relative 'monster'
+require_relative 'fuzzy_player'
 
 module Irrgarten
     class Labyrinth
@@ -63,8 +64,8 @@ module Irrgarten
             row = fuzzy_player.row
             col = fuzzy_player.col
 
-            if (@players[row][col].number == fuzzy_player.number)
-                @players[row][col] = fuzzy_player
+            if (@playersArray[row][col].number == fuzzy_player.number)
+                @playersArray[row][col] = fuzzy_player
             end
         end
 

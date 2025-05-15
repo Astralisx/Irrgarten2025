@@ -31,7 +31,7 @@ module Irrgarten
             @intelligence = other.intelligence
             @strength = other.strength
             @health = other.health
-            pos(other.row, other.col)
+            set_pos(other.row, other.col)
         end
 
         def dead

@@ -7,7 +7,7 @@ require_relative 'labyrinth'
 require_relative 'game_state'
 require_relative 'game_character'
 require_relative 'orientation'
-
+require_relative 'fuzzy_player'
 module Irrgarten
     class Game
         @@MAX_ROUNDS = 10
@@ -85,7 +85,7 @@ module Irrgarten
 
         def configure_labyrinth
             @labyrinth.add_block(Orientation::HORIZONTAL,1,1,3)
-            monster  = Monster.new('m1',1,1)
+            monster  = Monster.new('m1',10000,10000)
             # monster2  = Monster.new('m2',4,10)
             # monster3  = Monster.new('m3',80,90)
             @labyrinth.add_monster(2,2,monster)

@@ -35,16 +35,16 @@ module Irrgarten
 
 
         protected 
-        attr_reader :INITIAL_HEALTH, :weaponsArray, :shieldsArray
+        attr_reader :INITIAL_HEALTH, :weaponsArray, :shieldsArray, :consecutive_hits 
 
 
         public
         def copy (other)
             super(other)
             @number = other.number
-            @weapons = other.weapons
-            @shields = other.shields
-            @consecutive_hits = other.consecutive_hits
+            @weaponsArray = other.weaponsArray
+            @shieldsArray = other.shieldsArray
+            @consecutive_hits = other.consecutive_hits 
         end
 
 
