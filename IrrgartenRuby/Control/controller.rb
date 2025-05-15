@@ -1,7 +1,7 @@
 
-require_relative '../game'
+require_relative '../Juego/game'
 require_relative '../UI/textUI'
-require_relative '../directions'
+require_relative '../Juego/directions'
 
 module Control
   class Controller

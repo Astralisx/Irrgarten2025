@@ -1,30 +1,17 @@
 require_relative 'dice'
+require_relative 'labyrinth_character'
 module Irrgarten
-    class Monster
+    class Monster < LabyrinthCharacter
         @@INITIAL_HEALTH = 5
+        
         attr_reader :name , :intelligence, :strength , :health , :row , :col , :INITIAL_HEALTH
         def initialize(name, intelligence , strenght)
-            @name=name
-            @intelligence = intelligence.to_f
-            @strength = strenght.to_f
-            @health = @@INITIAL_HEALTH.to_f
-            @row = 0
-            @col = 0
+           super(name, intelligence, strenght, @@INITIAL_HEALTH)
         end
 
 
-        def dead
-            return @health <= 0
-        end
-        
         def attack
             return Dice.intensity(@strenght)
-        end
-
-
-        def set_pos(row,col)
-            @row = row
-            @col = col 
         end
 
 
@@ -33,9 +20,7 @@ module Irrgarten
             # Formato para mostrar los datos flotantes del monstruo
             formato= '%.10f'
 
-            return "M[#{@name}, i:#{format(formato,@intelligence)}, "+
-                    "s:#{format(formato,@strength)}, h:#{format(formato,@health)}, "+
-                    "p:(#{@row}, #{@col})]"
+            return super
         end
 
 

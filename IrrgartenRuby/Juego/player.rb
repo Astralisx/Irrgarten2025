@@ -4,9 +4,10 @@ require_relative 'dice'
 require_relative 'weapon'
 require_relative 'shield'
 require_relative 'directions'
+require_relative 'labyrinth_character'
 
 module Irrgarten
-    class Player
+    class Player < LabyrinthCharacter
         @@MAX_WEAPONS = 2
         @@MAX_SHIELDS = 3
         @@INITIAL_HEALTH = 10
@@ -15,14 +16,12 @@ module Irrgarten
 
         def initialize(number, intelligence, strength)
             @number = number.to_s
-            @name = "Player #{@number}"
-            @intelligence = intelligence.to_f
-            @strength = strength.to_f
-            @health = @@INITIAL_HEALTH
+            name = "Player #{@number}"
+
+            super(name, intelligence, strength, @@INITIAL_HEALTH)
+
             @weaponsArray = Array.new
             @shieldsArray = Array.new
-            @row = @@INVALID_POS
-            @col = @@INVALID_POS
             @consecutive_hits = 0
         end
 
@@ -32,20 +31,16 @@ module Irrgarten
             @shieldsArray.clear
             reset_hits
         end
-        attr_reader :intelligence, :strength , :health , :row , :number , :name , :col , :INITIAL_HEALTH
-        # attr_reader :name
-        # attr_reader :row
-        # attr_reader :col
-        # attr_reader :number
+        attr_reader :number, :INITIAL_HEALTH, :weaponsArray, :shieldsArray
 
-        def set_pos(row, col)
-            @row = row
-            @col = col
+        def copy (other)
+            super(other)
+            @number = other.number
+            @weapons = other.weapons
+            @shields = other.shields
+            @consecutive_hits = other.consecutive_hits
         end
 
-        def dead
-            @health <= 0
-        end
 
         def move(direction, valid_moves)
             size = valid_moves.length
@@ -80,9 +75,7 @@ module Irrgarten
             to_shields = "[" + @shieldsArray.map(&:to_s).join(", ") + "]"
             formato = '%.10f'
 
-            "#{@name}[i:#{format(formato,@intelligence)}, s:#{format(formato,@strength)}, " +
-            "h:#{format(formato,@health)}, ch:#{@consecutive_hits}, p:(#{@row}, #{@col}), " +
-            "w: #{to_weapons}, sh: #{to_shields} ]"
+            super + "cHits:#{@consecutive_hits}""\nw: #{to_weapons} \nsh: #{to_shields}\n "
         end
 
         private
@@ -134,11 +127,7 @@ module Irrgarten
         def reset_hits
             @consecutive_hits = 0
         end
-
-        def got_wounded
-            @health -= 1
-        end
-
+        
         def inc_consecutive_hits
             @consecutive_hits += 1
         end

@@ -157,7 +157,7 @@ module Irrgarten
 
 
         def log_player_won
-            @log.concat("¡#{@current_player.name} Ha ganado el combate!\n")
+            @log.concat("¡#{@current_player.number} Ha ganado el combate!\n")
         end
         def log_monster_won
             @log.concat("!El monstruo ha ganado el combate¡\n")

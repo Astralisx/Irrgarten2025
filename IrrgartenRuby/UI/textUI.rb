@@ -1,6 +1,6 @@
 
 require 'io/console'
-require_relative '../directions'
+require_relative '../Juego/directions'
 
 module UI
 
@@ -62,7 +62,7 @@ module UI
       puts game_state.log
       puts "Juadores de la partida: "
       puts game_state.players
-      puts "\nMonstruos del laberinto: "
+      puts "Monstruos del laberinto: "
       puts game_state.monsters
     end
 

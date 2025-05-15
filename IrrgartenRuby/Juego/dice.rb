@@ -72,5 +72,18 @@ module Irrgarten
             probabilidad = uses_left.to_f / @@MAX_USES.to_f
             (@@generator.rand >= probabilidad)
         end
+        
+        def self.nextStep(preference, valid_moves, intelligence)
+            to_return = preference
+
+            # En el caso de que la inteligencia generada sea mayor que la proporcionada, se devuelve uno aleatorio
+            if ( self.random_intelligence > intelligence )
+                random_index = @@generator.rand(valid_moves.size)
+                to_return = valid_moves[random_index]
+            end
+
+            return to_return
+        end
+
     end
 end
