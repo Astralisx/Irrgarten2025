@@ -34,27 +34,34 @@ module Irrgarten
         def finished
             @labyrinth.have_a_winner
         end
-        def next_step(prefferred_direction)
+        def next_step(preferred_direction)
             @log = ""
-            if(!@current_player.dead())
-                direction = actual_direction(prefferred_direction)
-                if(direction != prefferred_direction)
-                    log_player_no_orders()
+
+            if(!@current_player.dead)
+                direction = self.actual_direction(preferred_direction)
+
+                # Se comprueba si la dirección a moverse ha sido la querida
+                if(direction != preferred_direction)
+                    self.log_player_no_orders
                 end
-                monster = @labyrinth.put_player(direction,@current_player)
+
+                monster = @labyrinth.put_player(direction, @current_player)
                 if(monster == nil)
-                    log_no_monster()
+                    self.log_no_monster
                 else
-                    winner = combat(monster)
-                    manage_reward(winner)
+                    winner = self.combat(monster)
+                    self.manage_reward(winner)
                 end
             else
-                manage_resurrection
+                self.manage_resurrection
             end
-            end_game = self.finished
+
+            # Se comprueba si ha ganado ya alguien
+            end_game = self.finished()
             if(!end_game)
-                next_player
-            end  
+                self.next_player
+            end
+
             return end_game
     end
 
@@ -78,7 +85,7 @@ module Irrgarten
 
         def configure_labyrinth
             @labyrinth.add_block(Orientation::HORIZONTAL,1,1,3)
-            monster  = Monster.new('m1',1.5,5)
+            monster  = Monster.new('m1',1,1)
             # monster2  = Monster.new('m2',4,10)
             # monster3  = Monster.new('m3',80,90)
             @labyrinth.add_monster(2,2,monster)
@@ -94,12 +101,8 @@ module Irrgarten
 
         def next_player 
 
-            if @current_player_index == (@players.size - 1)
-                @current_player_index =0
-            else
-                @current_player_index +=1
-            end
-            @current_player = @players[@current_player_index]   
+            @current_player_index = (@current_player_index + 1) % @players.size
+            @current_player = @players[@current_player_index]  
         end
 
 
@@ -107,7 +110,7 @@ module Irrgarten
             row = @current_player.row
             col = @current_player.col
             directions = @labyrinth.valid_moves(row,col)
-            @current_player.move(preferred_direction,directions)
+            return @current_player.move(preferred_direction,directions)
         end 
 
 
@@ -115,6 +118,13 @@ module Irrgarten
             if (Dice::resurrect_player())
                 @current_player.resurrect()
                 log_resurrected()
+
+                #Conversión a fuzzy
+                fuzzy = FuzzyPlayer.new(@current_player)
+
+                @players[@current_player_index] = fuzzy
+
+                @labyrinth.convert_to_fuzzy(fuzzy)
             else 
                 log_player_skip_turn()
             end
@@ -133,25 +143,29 @@ module Irrgarten
 
 
         def combat(monster)
+            # Inicializamos los valores
             rounds = 0
             winner = GameCharacter::PLAYER
             player_attack = @current_player.attack()
+            # Comienza el jugador atacando
             lose = monster.defend(player_attack)
-            while (!lose && (rounds < @@MAX_ROUNDS))
+            # Bucle hasta que finalice el número de rondas posible o haya perdido
+            # el monstruo
+            while ( (!lose) && (rounds < @@MAX_ROUNDS) )
                 winner = GameCharacter::MONSTER
-                rounds+=1
+                rounds += 1
                 monster_attack = monster.attack()
+                # Turno del monstruo de atacar al jugador
                 lose = @current_player.defend(monster_attack)
-
-                if (!lose)
+                if(!lose)
                     player_attack = @current_player.attack()
                     winner = GameCharacter::PLAYER
-                    lose = monster.defend(player_attack)
-
+                    lose = monster.defend(@current_player.attack())
                 end
-                
-            end 
-            log_rounds(rounds, @@MAX_ROUNDS)
+            end
+
+            self.log_rounds(rounds, @@MAX_ROUNDS)
+            # Devolvemos el ganador
             return winner
         end
 
@@ -163,7 +177,7 @@ module Irrgarten
             @log.concat("!El monstruo ha ganado el combate¡\n")
         end
         def log_resurrected
-            @log.concat("Acabas de resucitar\n")
+            @log.concat("Acabas de resucitar como Fuzzy\n")
         end
         def log_player_skip_turn
             @log.concat("Has perdido el turno por estar muerto\n")

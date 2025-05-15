@@ -3,8 +3,8 @@ require_relative 'dice'
 module Irrgarten
     class CombatElement
         def initialize (effect,uses)
-            @effect = effect
-            @uses = uses
+            @effect = effect.to_f
+            @uses = uses.to_i
         end
 
 
@@ -29,6 +29,6 @@ module Irrgarten
             return "[#{@effect}, #{@uses}]"
         end
 
-        
+
     end
 end

@@ -60,7 +60,7 @@ module UI
       puts game_state.labyrinth
       puts "Jugador actual: " + game_state.current_player.to_s
       puts game_state.log
-      puts "Juadores de la partida: "
+      puts "Jugadores de la partida: "
       puts game_state.players
       puts "Monstruos del laberinto: "
       puts game_state.monsters

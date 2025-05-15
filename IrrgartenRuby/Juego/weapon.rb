@@ -7,7 +7,7 @@ module Irrgarten
     # Se usa constructor de CombatElement por defecto
 
     def attack
-      produce_effect
+      return produce_effect
     end
 
     def to_s

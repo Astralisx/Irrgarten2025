@@ -3,6 +3,7 @@ require_relative 'dice'
 require_relative 'orientation'
 require_relative 'player'
 require_relative 'monster'
+
 module Irrgarten
     class Labyrinth
         @@BLOCK_CHAR = 'X'
@@ -57,7 +58,15 @@ module Irrgarten
             cadena.concat(decor,"\n")
             return cadena
         end
+        
+        def convert_to_fuzzy(fuzzy_player)
+            row = fuzzy_player.row
+            col = fuzzy_player.col
 
+            if (@players[row][col].number == fuzzy_player.number)
+                @players[row][col] = fuzzy_player
+            end
+        end
 
         def add_monster(row,col,monster)
             if pos_ok(row,col) && empty_pos(row,col)

@@ -6,7 +6,7 @@ module Irrgarten
   class Shield < CombatElement
     # Se usa constructor de CombatElement por defecto
     def protect
-      produce_effect
+      return produce_effect
     end
 
     def to_s

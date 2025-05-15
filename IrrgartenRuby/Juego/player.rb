@@ -1,5 +1,4 @@
 # encoding: UTF-8
-
 require_relative 'dice'
 require_relative 'weapon'
 require_relative 'shield'
@@ -31,8 +30,15 @@ module Irrgarten
             @shieldsArray.clear
             reset_hits
         end
-        attr_reader :number, :INITIAL_HEALTH, :weaponsArray, :shieldsArray
 
+        attr_reader :number
+
+
+        protected 
+        attr_reader :INITIAL_HEALTH, :weaponsArray, :shieldsArray
+
+
+        public
         def copy (other)
             super(other)
             @number = other.number
@@ -97,7 +103,7 @@ module Irrgarten
         def new_shield
             Shield.new(Dice.shield_power, Dice.uses_left)
         end
-
+        protected
         def sum_weapons
             @weaponsArray.sum(&:attack)
         end
@@ -110,6 +116,7 @@ module Irrgarten
             @intelligence + sum_shields
         end
 
+        public 
         def manage_hit(received_attack)
             defense = defensive_energy
             if defense < received_attack
@@ -119,9 +126,13 @@ module Irrgarten
                 reset_hits
             end
 
-            lose = (@consecutive_hits == @@HITS2LOSE) || dead
-            reset_hits if lose
-            lose
+            if ( (@consecutive_hits==@@HITS2LOSE) || self.dead )
+                self.reset_hits
+                lose=true
+            else
+                lose=false
+            end
+            return lose
         end
 
         def reset_hits

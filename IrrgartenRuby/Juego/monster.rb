@@ -5,13 +5,13 @@ module Irrgarten
         @@INITIAL_HEALTH = 5
         
         attr_reader :name , :intelligence, :strength , :health , :row , :col , :INITIAL_HEALTH
-        def initialize(name, intelligence , strenght)
-           super(name, intelligence, strenght, @@INITIAL_HEALTH)
+        def initialize(name, intelligence , strength)
+           super(name, intelligence, strength, @@INITIAL_HEALTH)
         end
 
 
         def attack
-            return Dice.intensity(@strenght)
+            return Dice.intensity(@strength)
         end
 
 
@@ -39,15 +39,6 @@ module Irrgarten
         end
 
         private
-
-
-        def got_wounded
-            if @health >= 1 
-                @health -=1
-            else 
-                @health = 0
-            end
-        end
 
     end
 end
