@@ -81,11 +81,11 @@ public class Game {
 // ----------------------------------------------------------------------
     private void ConfigureLabyrinth(){
         this.labyrinth.addBlock(Orientation.VERTICAL, 2, 1,2);
-        Monster m1 = new Monster("m1", 1, 1);
-        Monster m2 = new Monster("m2", 10, 10);
-        this.labyrinth.addMonster(0, 1, m1);
+//        Monster m1 = new Monster("Cerbero", 1, 1);
+        Monster m2 = new Monster("Medusa", 1000, 1000);
+//        this.labyrinth.addMonster(0, 1, m1);
         this.labyrinth.addMonster(3, 3, m2);
-        this.monstersArray.add(m1);
+//        this.monstersArray.add(m1);
         this.monstersArray.add(m2);
     }
 
@@ -143,6 +143,11 @@ public class Game {
         if (resurrect){
             this.currentPlayer.resurrect();
             logResurrected();
+            
+             // Se cambia la posición por el fuzzyplayer
+            FuzzyPlayer fuzzy= new FuzzyPlayer(this.currentPlayer);
+            this.playersArray.set(this.currentPlayerIndex, fuzzy);
+            this.labyrinth.convertToFuzzy(fuzzy);
         }
         else{
             logPlayerSkipTurn();
@@ -156,7 +161,7 @@ public class Game {
         this.log+="El monstruo ha ganado el combate! \n";
     }
     private void logResurrected(){
-        this.log+="Acabas de resucitar\n";
+        this.log+= this.currentPlayer.getName() + " resurrected as fuzzy.\n";
     }
     private void logPlayerSkipTurn(){
         this.log+="Has perdido el turno por estar muerto \n";

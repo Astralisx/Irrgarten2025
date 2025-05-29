@@ -56,26 +56,23 @@ public class Labyrinth {
 
     @Override
     public String toString(){
-        String cadena="", marco="";
-
-        for (int i=0; i<nCols+2;i++){
-            marco +=" * ";
-        }
-        marco += "\n";
-        cadena += marco;
-
+        String cadena="";
         for (int i=0; i < nRows; i++){
-            cadena += " * ";
             for (int j=0; j < nCols; j++){
-                cadena += " " + this.labyrinth[i][j] + " ";
+                cadena += this.labyrinth[i][j] + "\t ";
             }
-            cadena += " *\n";
+            cadena += "\n\n";
         }
-        cadena += marco;
 
         return cadena;
     }
-
+    
+    public void convertToFuzzy(FuzzyPlayer other){
+        int row=other.getRow();
+        int col=other.getCol();
+        if(this.players[row][col].getNumber() == other.getNumber())
+            this.players[row][col]=other;
+    }
     public void addMonster(int row, int col, Monster monster){
         if (posOK(row, col) && (emptyPos(row, col))){
             monster.setPos(row,col);

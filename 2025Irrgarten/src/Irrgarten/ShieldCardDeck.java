@@ -8,18 +8,12 @@ package Irrgarten;
  *
  * @author astralisx
  */
-public class Weapon extends CombatElement {
+public class ShieldCardDeck extends CardDeck<Shield>{
     
-    public Weapon(float power,int uses){
-        super(power,uses);
-    }
-    
-    public float attack(){
-        return this.produceEffect();
-    }
-
     @Override
-    public String toString(){
-        return "W" + super.toString();
-    }
+    protected void addCards(){
+        for (int i = 0; i < TAM_MAX; i++){
+            this.addCard(new Shield (Dice.shieldPower(),Dice.usesLeft()));
+        } 
+    } 
 }

@@ -4,6 +4,8 @@
  */
 package Irrgarten;
 import java.util.Random;
+import java.util.ArrayList;
+
 /**
  *
  * @author astralisx
@@ -73,6 +75,15 @@ public class Dice {
         return generator.nextFloat() >= prob;
     }
 
+    public static Directions nextStep(Directions preference, ArrayList<Directions> validMoves, float intelligence){
+        Directions toReturn=preference;
 
+        if(Dice.randomIntelligence()>intelligence){
+            int indice=generator.nextInt(validMoves.size());
+            toReturn=validMoves.get(indice);          
+        }
+
+        return toReturn;
+    }
 
 }   
